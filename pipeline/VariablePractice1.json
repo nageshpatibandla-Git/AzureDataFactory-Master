@@ -1,0 +1,218 @@
+{
+	"name": "VariablePractice1",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Var_value",
+					"value": {
+						"value": "@utcNow()",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 1
+				}
+			},
+			{
+				"name": "Set variable2",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Wait1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Var_value",
+					"value": {
+						"value": "@pipeline().DataFactory",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Get Metadata1",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "HR_Source_Folder",
+						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
+					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Get Metadata1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get Metadata1').output.childItems",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Set variable3",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Var_value",
+								"value": {
+									"value": "@item().name\n",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "DatasetFileList",
+							"type": "AppendVariable",
+							"dependsOn": [
+								{
+									"activity": "Set variable3",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Array_value",
+								"value": {
+									"value": "@variables('Var_value')",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set variable5",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "DatasetFileList",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Final_List0fFiles",
+								"value": {
+									"value": "@variables('Array_value')",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Set variable4",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "ForEach1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Final_List0fFiles",
+					"value": {
+						"value": "@variables('Array_value')",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"Var_value": {
+				"type": "String"
+			},
+			"Array_value": {
+				"type": "Array"
+			},
+			"Final_List0fFiles": {
+				"type": "Array"
+			}
+		},
+		"folder": {
+			"name": "Nagesh"
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-12-02T15:08:25Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

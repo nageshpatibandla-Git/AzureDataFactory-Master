@@ -1,0 +1,25 @@
+{
+	"name": "Capstone_Dynamic_Table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SQLLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"tblname": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "DBO",
+			"table": {
+				"value": "@dataset().tblname",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

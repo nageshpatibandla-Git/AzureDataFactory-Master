@@ -1,0 +1,37 @@
+{
+	"name": "Practice_weekly9AM",
+	"properties": {
+		"description": "Practice_weekly9AM",
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Schedule_pipeline_Trigger2",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Week",
+				"interval": 1,
+				"startTime": "2025-12-03T00:00:00",
+				"timeZone": "India Standard Time",
+				"schedule": {
+					"minutes": [
+						0
+					],
+					"hours": [
+						2
+					],
+					"weekDays": [
+						"Saturday",
+						"Wednesday"
+					]
+				}
+			}
+		}
+	}
+}

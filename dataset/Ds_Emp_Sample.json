@@ -1,0 +1,22 @@
+{
+	"name": "Ds_Emp_Sample",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AZBlobLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Data",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Employee Sample Data.xlsx",
+				"folderPath": "Source_datasets",
+				"container": "humanresource"
+			}
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

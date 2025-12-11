@@ -1,0 +1,201 @@
+{
+	"name": "DailyCopy_Lookup",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "Dynamic_Table",
+						"type": "DatasetReference",
+						"parameters": {
+							"tbl_Name": "DAILY_COPYLIST"
+						}
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup1').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "AzureSqlSink",
+									"writeBehavior": "insert",
+									"sqlWriterUseTableLock": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "Dynamic_Table",
+									"type": "DatasetReference",
+									"parameters": {
+										"tbl_Name": {
+											"value": "@item().INPUT_TABLENAME",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "Dynamic_Table",
+									"type": "DatasetReference",
+									"parameters": {
+										"tbl_Name": {
+											"value": "@item().OUTPUT_TABLENAME",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						},
+						{
+							"name": "Success_Log",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "Copy data1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[dbo].[DAILY_FAIL_LOG]",
+								"storedProcedureParameters": {
+									"activity_id": {
+										"value": {
+											"value": "@item().Activity_id",
+											"type": "Expression"
+										},
+										"type": "String"
+									},
+									"status": {
+										"value": "Y",
+										"type": "String"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "SQLLinkedService",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Failure_Log",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "Copy data1",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[dbo].[DAILY_FAIL_LOG]",
+								"storedProcedureParameters": {
+									"activity_id": {
+										"value": {
+											"value": "@item().Activity_id",
+											"type": "Expression"
+										},
+										"type": "String"
+									},
+									"status": {
+										"value": "N",
+										"type": "String"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "SQLLinkedService",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			}
+		],
+		"folder": {
+			"name": "Nagesh"
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-12-05T16:24:27Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

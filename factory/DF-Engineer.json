@@ -1,0 +1,9 @@
+{
+	"name": "DF-Engineer",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "5870836b-4039-487e-8d44-b18fd48d4868",
+		"tenantId": "06723335-8244-4f84-9e3c-cd30825c2045"
+	}
+}

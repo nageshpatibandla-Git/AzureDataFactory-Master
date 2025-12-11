@@ -1,0 +1,22 @@
+{
+	"name": "Sample_pipeline_practice",
+	"properties": {
+		"activities": [
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 60
+				}
+			}
+		],
+		"folder": {
+			"name": "Nagesh"
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-12-08T16:04:00Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,30 @@
+{
+	"name": "Practice_Daily_6AM",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Schedule_pipeline_Trigger",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "Schedule_pipeline_Trigger2",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Month",
+				"interval": 15,
+				"startTime": "2025-12-03T12:42:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}

@@ -1,0 +1,23 @@
+{
+	"name": "Schedule_pipeline_Trigger",
+	"properties": {
+		"description": "Schedule_pipeline_Trigger",
+		"activities": [
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 1
+				}
+			}
+		],
+		"folder": {
+			"name": "Nagesh"
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-12-03T12:47:43Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

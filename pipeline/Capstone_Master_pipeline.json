@@ -1,0 +1,52 @@
+{
+	"name": "Capstone_Master_pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "Capstone_SourcetoStage",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Capstone_Source_To_Stage",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Capstone_stagetoDW",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Capstone_SourcetoStage",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Capstone_Stage_to_DataWarehouse",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "Nagesh/Capstone"
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-12-10T15:09:39Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

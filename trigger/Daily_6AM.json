@@ -1,0 +1,30 @@
+{
+	"name": "Daily_6AM",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Schedule_Pipeline",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "Schedule_Pipeline_2",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Month",
+				"interval": 1,
+				"startTime": "2025-11-25T06:00:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}

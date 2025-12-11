@@ -1,0 +1,33 @@
+{
+	"name": "Capstone_Stage_to_DataWarehouse",
+	"properties": {
+		"activities": [
+			{
+				"name": "Stored procedure1",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[sp_transform_and_load_sales_data]"
+				},
+				"linkedServiceName": {
+					"referenceName": "SQLLinkedService",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"folder": {
+			"name": "Nagesh/Capstone"
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-12-10T15:09:39Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

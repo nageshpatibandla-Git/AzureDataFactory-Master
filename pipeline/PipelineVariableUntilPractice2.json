@@ -1,0 +1,125 @@
+{
+	"name": "PipelineVariableUntilPractice2",
+	"properties": {
+		"activities": [
+			{
+				"name": "Until1",
+				"type": "Until",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@or(\n    activity('Get Metadata1').output.exists\n    ,\n    equals(variables('IterCount'),3)\n    )",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Wait1",
+							"type": "Wait",
+							"dependsOn": [
+								{
+									"activity": "Get Metadata1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 10
+							}
+						},
+						{
+							"name": "Get Metadata1",
+							"type": "GetMetadata",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "emp_Sal",
+									"type": "DatasetReference"
+								},
+								"fieldList": [
+									"exists"
+								],
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							}
+						},
+						{
+							"name": "Tempcount",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Temp_IterCount",
+								"value": {
+									"value": "@add(variables('IterCount'),1)",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "IterationCount",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Tempcount",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "IterCount",
+								"value": {
+									"value": "@variables('Temp_IterCount')",
+									"type": "Expression"
+								}
+							}
+						}
+					],
+					"timeout": "0.12:00:00"
+				}
+			}
+		],
+		"variables": {
+			"Temp_IterCount": {
+				"type": "Integer",
+				"defaultValue": 0
+			},
+			"IterCount": {
+				"type": "Integer",
+				"defaultValue": 0
+			}
+		},
+		"folder": {
+			"name": "Nagesh"
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-12-02T15:08:25Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
