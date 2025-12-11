@@ -1,0 +1,57 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "DF-Engineer"
+		},
+		"AZBlobLinkedService_connectionString": {
+			"value": ""
+		},
+		"LS_BLOB_connectionString": {
+			"value": ""
+		},
+		"LS_SQL_password": {
+			"value": ""
+		},
+		"SQLLinkedService_password": {
+			"value": ""
+		},
+		"LS_SQL_properties_typeProperties_server": {
+			"value": "dbserver-de.database.windows.net"
+		},
+		"LS_SQL_properties_typeProperties_database": {
+			"value": "dbsqldataengineer"
+		},
+		"LS_SQL_properties_typeProperties_userName": {
+			"value": "Nagesh"
+		},
+		"SQLLinkedService_properties_typeProperties_server": {
+			"value": "dbserver-de.database.windows.net"
+		},
+		"SQLLinkedService_properties_typeProperties_database": {
+			"value": "dbsqldataengineer"
+		},
+		"SQLLinkedService_properties_typeProperties_userName": {
+			"value": "Nagesh"
+		},
+		"Event_Based_Trigger_Practice_properties_typeProperties_scope": {
+			"value": "/subscriptions/3c3847b1-0098-4a1d-acce-0a6764250a16/resourceGroups/Patibandla/providers/Microsoft.Storage/storageAccounts/azblobstoragedatalake"
+		},
+		"Tumbling_Trigger_properties_pipeline_parameters_Window_Start_Time": {
+			"value": "@trigger().outputs.windowStartTime"
+		},
+		"Tumbling_Trigger_properties_pipeline_parameters_Window_End_Time": {
+			"value": "@trigger().outputs.windowEndTime"
+		},
+		"Tumbling_Trigger_Practice_properties_pipeline_parameters_Pipeline_StartTime": {
+			"value": "@trigger().outputs.windowStartTime"
+		},
+		"Tumbling_Trigger_Practice_properties_pipeline_parameters_Pipeline_EndTime": {
+			"value": "@trigger().outputs.windowEndTime"
+		},
+		"trigger1_properties_typeProperties_scope": {
+			"value": "/subscriptions/3c3847b1-0098-4a1d-acce-0a6764250a16/resourceGroups/Patibandla/providers/Microsoft.Storage/storageAccounts/azblobstoragedatalake"
+		}
+	}
+}

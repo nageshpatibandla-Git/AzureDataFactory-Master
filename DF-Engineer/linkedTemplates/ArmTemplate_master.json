@@ -1,0 +1,214 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "DF-Engineer"
+		},
+		"AZBlobLinkedService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AZBlobLinkedService'"
+		},
+		"LS_BLOB_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_BLOB'"
+		},
+		"LS_SQL_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_SQL'"
+		},
+		"SQLLinkedService_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SQLLinkedService'"
+		},
+		"LS_SQL_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "dbserver-de.database.windows.net"
+		},
+		"LS_SQL_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "dbsqldataengineer"
+		},
+		"LS_SQL_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Nagesh"
+		},
+		"SQLLinkedService_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "dbserver-de.database.windows.net"
+		},
+		"SQLLinkedService_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "dbsqldataengineer"
+		},
+		"SQLLinkedService_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Nagesh"
+		},
+		"Event_Based_Trigger_Practice_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/3c3847b1-0098-4a1d-acce-0a6764250a16/resourceGroups/Patibandla/providers/Microsoft.Storage/storageAccounts/azblobstoragedatalake"
+		},
+		"Tumbling_Trigger_properties_pipeline_parameters_Window_Start_Time": {
+			"type": "string",
+			"defaultValue": "@trigger().outputs.windowStartTime"
+		},
+		"Tumbling_Trigger_properties_pipeline_parameters_Window_End_Time": {
+			"type": "string",
+			"defaultValue": "@trigger().outputs.windowEndTime"
+		},
+		"Tumbling_Trigger_Practice_properties_pipeline_parameters_Pipeline_StartTime": {
+			"type": "string",
+			"defaultValue": "@trigger().outputs.windowStartTime"
+		},
+		"Tumbling_Trigger_Practice_properties_pipeline_parameters_Pipeline_EndTime": {
+			"type": "string",
+			"defaultValue": "@trigger().outputs.windowEndTime"
+		},
+		"trigger1_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/3c3847b1-0098-4a1d-acce-0a6764250a16/resourceGroups/Patibandla/providers/Microsoft.Storage/storageAccounts/azblobstoragedatalake"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "DF-Engineer_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"LS_BLOB_connectionString": {
+						"value": "[parameters('LS_BLOB_connectionString')]"
+					},
+					"LS_SQL_password": {
+						"value": "[parameters('LS_SQL_password')]"
+					},
+					"SQLLinkedService_password": {
+						"value": "[parameters('SQLLinkedService_password')]"
+					},
+					"LS_SQL_properties_typeProperties_server": {
+						"value": "[parameters('LS_SQL_properties_typeProperties_server')]"
+					},
+					"LS_SQL_properties_typeProperties_database": {
+						"value": "[parameters('LS_SQL_properties_typeProperties_database')]"
+					},
+					"LS_SQL_properties_typeProperties_userName": {
+						"value": "[parameters('LS_SQL_properties_typeProperties_userName')]"
+					},
+					"SQLLinkedService_properties_typeProperties_server": {
+						"value": "[parameters('SQLLinkedService_properties_typeProperties_server')]"
+					},
+					"SQLLinkedService_properties_typeProperties_database": {
+						"value": "[parameters('SQLLinkedService_properties_typeProperties_database')]"
+					},
+					"SQLLinkedService_properties_typeProperties_userName": {
+						"value": "[parameters('SQLLinkedService_properties_typeProperties_userName')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "DF-Engineer_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AZBlobLinkedService_connectionString": {
+						"value": "[parameters('AZBlobLinkedService_connectionString')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DF-Engineer_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "DF-Engineer_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"Tumbling_Trigger_properties_pipeline_parameters_Window_Start_Time": {
+						"value": "[parameters('Tumbling_Trigger_properties_pipeline_parameters_Window_Start_Time')]"
+					},
+					"Tumbling_Trigger_properties_pipeline_parameters_Window_End_Time": {
+						"value": "[parameters('Tumbling_Trigger_properties_pipeline_parameters_Window_End_Time')]"
+					},
+					"Tumbling_Trigger_Practice_properties_pipeline_parameters_Pipeline_StartTime": {
+						"value": "[parameters('Tumbling_Trigger_Practice_properties_pipeline_parameters_Pipeline_StartTime')]"
+					},
+					"Tumbling_Trigger_Practice_properties_pipeline_parameters_Pipeline_EndTime": {
+						"value": "[parameters('Tumbling_Trigger_Practice_properties_pipeline_parameters_Pipeline_EndTime')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DF-Engineer_ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "DF-Engineer_ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"Event_Based_Trigger_Practice_properties_typeProperties_scope": {
+						"value": "[parameters('Event_Based_Trigger_Practice_properties_typeProperties_scope')]"
+					},
+					"trigger1_properties_typeProperties_scope": {
+						"value": "[parameters('trigger1_properties_typeProperties_scope')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DF-Engineer_ArmTemplate_2')]"
+			]
+		}
+	]
+}
